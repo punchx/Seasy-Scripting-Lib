@@ -7,13 +7,13 @@ var qRExpr =/^(?:\+([a-zA-Z]+)|#(\d+)|(\^|\*)?([^:#>\+\{\}]*))$/;
 var rTrim = /^\s+|\s+$/g;
 
 var regExpr = {
-	id: /\s*#(\d+)/,
-	name: /^(\^|\*)?([^:#>\+\{\}]*)/,
+	id: /\s*#\d+/,
+	name: /^(\^|\*)?([^:#>\+\{\}]+)/,
 	type: /:\s*(\^)?\s*([a-zA-Z]+)/,
 	attr: /(?:\{\s*(\^)?\s*([\w]+)\s*(?:=\s*(\w+))?\s*\})/
 };
 
-var selArr = [], i = 0, selector = '#10{visible}';
+var selArr = [], i = 0, selector = '*vasea: text{ visible=true }';
 
 if (  selector.indexOf('>') == -1 && selector.indexOf(',')  == -1  ) {
 
