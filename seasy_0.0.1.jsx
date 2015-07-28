@@ -35,8 +35,7 @@
 			return this;
 		}
 		// Handle case when selector is an after effects node
-		// Return one element object[0] = AE node;	
-		if ( isElem( selector ) ) {
+		// Return one element object[0] = AE node;			if ( isElem( selector ) ) {
 			this.length = 1;
 			this[0] = this.selector = selector;
 			this.context = global; 
@@ -156,10 +155,6 @@
 					Seasy( parseFloat( selArr[0][1] ), context );
 				}
 			}
-
-
-
-
 		}
 		return this;
 	}
