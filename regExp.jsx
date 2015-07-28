@@ -1,18 +1,31 @@
 var id = '^\s*#(\d+)',
-	name = '^\s*(\^|\*)?([^:#>\+\{\}]+)',
+	name = '^(\^|\*)?([^:#>,\+\{\}]+)',
 	type = ':\s*(\^)?\s*([a-zA-Z]+)',
 	attr = '(?:\{\s*(\^)?\s*([\w]+)\s*(?:=\s*(\w+))?\s*\})';
 
-var qRExpr =/^\s*(?:\+([a-zA-Z]+)|#(\d+)|(\^|\*)?([^:#>\+\{\}]*))\s*$/;
+var qRExpr =/^(?:\+([a-zA-Z]+)|#(\d+)|(\^|\*)?([^:#>\+\{\}]*))$/;
+var rTrim = /^\s+|\s+$/g;
 
-var regObj = {
-	'id': /\s*#(\d+)/,
-	name: /^\s*(\^|\*)?([^:#>\+\{\}]*)/
+var regExpr = {
+	id: /\s*#(\d+)/,
+	name: /^(\^|\*)?([^:#>\+\{\}]*)/,
+	type: /:\s*(\^)?\s*([a-zA-Z]+)/,
+	attr: /(?:\{\s*(\^)?\s*([\w]+)\s*(?:=\s*(\w+))?\s*\})/
 };
 
+var selArr = [], i = 0, selector = '#10{visible}';
 
-var reg = new RegExp(id);
-var parse = '*'.match(/^\s*(?:\+([a-zA-Z]+)|#(\d+)|(\^|\*)?([^:#>\+\{\}]+))\s*$/);
+if (  selector.indexOf('>') == -1 && selector.indexOf(',')  == -1  ) {
 
-console.log(reg);
-console.log(parse);
+	
+}
+var key = 'layer';
+
+for ( key in regExpr ) {
+
+	selArr[i] = selector.match( regExpr[key] );
+	i++;
+}
+
+
+console.log(selArr);

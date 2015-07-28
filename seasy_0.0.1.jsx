@@ -12,7 +12,23 @@
 	//Initialize Seasy object
  
 	sInit = Seasy.prototype.sInit = function( selector, context ) {
-		var elem, index, key;
+		var i,
+			elem,
+			index,
+			key,
+			indexArr,
+			indexItem,
+			indexChild, 
+			match,
+			selArr,
+			expr,
+			qRExpr = /^(?:\+([a-zA-Z]+)|#(\d+)|(\^|\*)?([^:#>\+\{\}]*))$/,
+			regExpr = {
+				id: /\s*#(\d+)/,
+				name: /^(\^|\*)?([^:#>\+\{\}]*)/,
+				type: /:\s*(\^)?\s*([a-zA-Z]+)/,
+				attr: /(?:\{\s*(\^)?\s*([\w]+)\s*(?:=\s*(\w+))?\s*\})/
+			};
 		// Handle Cases for (""), (null), (undefined), (false)
 		// return non elements object
 		if ( !selector ) {
@@ -60,8 +76,8 @@
 			//First case when number is an integer number 
 			if ( isInt( index ) ) {				
 				if ( key ) {
-					elem = index > 0 ? context[ key ]( index ) :
-					context[ key ]( context[ 'num' + key[0].toUpperCase() + key.slice(1) + 's' ] + index + 1 );
+					elem = index > 0 ? context[key]( index ) :
+					context[key]( context['num' + key[0].toUpperCase() + key.slice(1) + 's'] + index + 1 );
 					if ( elem && isElem( elem ) ) {
 						this.length = 1;
 						this[0] = elem;
@@ -72,9 +88,10 @@
 				}				
 			} else if ( isFloat( index ) ) {
 				//Second case when selector is a float number
-				var indexArr = index.toString().split('.'),
-				    indexItem = parseFloat( indexArr[0] ),
-				    indexChild = parseFloat( indexArr[1] ); 				
+				indexArr = index.toString().split('.'),
+				indexItem = parseFloat( indexArr[0] ),
+				indexChild = parseFloat( indexArr[1] );
+
 				Seasy.merge( this, Seasy( indexItem, context ).find( indexChild ) );
 				this.selector = selector;
 				this.context = context;
@@ -83,7 +100,7 @@
 		}
 		// Handle case when selector is array
 		if ( isArr( selector ) ) {
-			for ( var i = 0; i < selector.length; i++ ) {
+			for ( i = 0; i < selector.length; i++ ) {
 				Seasy.merge( this, Seasy( selector[i], context ) );
 				this.selector = selector;
 				this.context = context;
@@ -106,18 +123,13 @@
 			// Handle cases when selector is '*'- all elements, '@'- active elements, '$' - selected elements 
 			if ( selector == '*' ) {
 				if ( key ) {
-					Seasy.merge( this, context[ key + 's' ] );
+					Seasy.merge( this, context[key + 's'] );
 					this.selector = selector;
 					this.context = context;
 					return this;
 				}
 			}
-
-
-			// Regular expresion for matching cases: '+ELEMENT','#ID', 'NAME'
-			var qRExpr = /^\s*(?:\+([a-zA-Z]+)|#(\d+)|(\^|\*)?([^:#>\+\{\}]*))\s*$/,
-				match;
-			// Handle each case
+			// Match selector by +element or #id or name
 			if ( match = selctor.match( qRExpr ) ) {
 				if ( match[1] && isObj( context ) ) {
 					Seasy.merge( this, Seasy.create( match[1], context ) );
@@ -133,10 +145,16 @@
 					return this;
 				}
 			}
-			// Handle case 
-			var regObj = {
-
-
+			// Try to match selector as name:type{attr = value} 
+			if (  selector.indexOf('>') == -1 && selector.indexOf(',')  == -1  ) {
+				for ( expr in regExpr ) {
+					selArr[i] = selector.match( regExpr[expr] );
+					i++;
+				}
+				if ( selArr[0] != null ) {
+					if ()
+					Seasy( parseFloat( selArr[0][1] ), context );
+				}
 			}
 
 
